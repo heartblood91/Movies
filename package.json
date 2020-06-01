@@ -19,21 +19,21 @@
     "babel-preset-react": "^6.1.18",
     "chai": "^4.2.0",
     "chai-jquery": "^2.0.0",
-    "jquery": "^3.4.1",
-    "jsdom": "^15.2.0",
-    "mocha": "^6.2.2",
+    "jquery": "^3.5.1",
+    "jsdom": "^15.2.1",
+    "mocha": "^6.2.3",
     "react-addons-test-utils": "^15.6.2",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.19.2",
     "babel-preset-stage-1": "^6.1.18",
     "lodash": "^4.17.15",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
-    "react-redux": "^7.1.1",
-    "react-router": "^5.1.2",
-    "redux": "^4.0.4"
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
+    "react-router": "^5.2.0",
+    "redux": "^4.0.5"
   }
 }
