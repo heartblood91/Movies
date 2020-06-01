@@ -4,12 +4,11 @@ import VideoList from "./video-list";
 import VideoDetail from "../components/video-details";
 import Video from "../components/video";
 import axios from "axios";
+import { API_KEY } from "../credentials";
 
 const API_END_POINT = "https://api.themoviedb.org/3/";
-
 const POPULAR_MOVIES_URL =
   "discover/movie?language=fr&sort_by=popularity.desc&include_adult=false&append_to_response=images";
-const API_KEY = ***REMOVED***;
 const SEARCH_URL = "search/movie?language=fr&include_adult=false";
 
 class App extends Component {
@@ -20,13 +19,13 @@ class App extends Component {
   }
   initMovies() {
     axios.get(`${API_END_POINT}${POPULAR_MOVIES_URL}&${API_KEY}`).then(
-      function(response) {
+      function (response) {
         this.setState(
           {
             movieList: response.data.results.slice(1, 6),
-            currentMovie: response.data.results[0]
+            currentMovie: response.data.results[0],
           },
-          function() {
+          function () {
             this.applyVideoToCurrentMovie();
           }
         );
@@ -36,12 +35,10 @@ class App extends Component {
   applyVideoToCurrentMovie() {
     axios
       .get(
-        `${API_END_POINT}movie/${
-          this.state.currentMovie.id
-        }?${API_KEY}&append_to_response=videos&include_adult=false`
+        `${API_END_POINT}movie/${this.state.currentMovie.id}?${API_KEY}&append_to_response=videos&include_adult=false`
       )
       .then(
-        function(response) {
+        function (response) {
           if (
             response.data.videos.results[0] &&
             response.data.videos.results[0].key
@@ -57,7 +54,7 @@ class App extends Component {
       );
   }
   onClickListItem(movie) {
-    this.setState({ currentMovie: movie }, function() {
+    this.setState({ currentMovie: movie }, function () {
       this.applyVideoToCurrentMovie();
       this.setRecommendation();
     });
@@ -65,14 +62,12 @@ class App extends Component {
   setRecommendation() {
     axios
       .get(
-        `${API_END_POINT}movie/${
-          this.state.currentMovie.id
-        }/recommendations?${API_KEY}&language=fr`
+        `${API_END_POINT}movie/${this.state.currentMovie.id}/recommendations?${API_KEY}&language=fr`
       )
       .then(
-        function(response) {
+        function (response) {
           this.setState({
-            movieList: response.data.results.slice(0, 5)
+            movieList: response.data.results.slice(0, 5),
           });
         }.bind(this)
       );
@@ -83,7 +78,7 @@ class App extends Component {
       axios
         .get(`${API_END_POINT}${SEARCH_URL}&${API_KEY}&query=${searchText}`)
         .then(
-          function(response) {
+          function (response) {
             if (response.data && response.data.results[0]) {
               if (response.data.results[0].id != this.state.currentMovie.id) {
                 this.setState(
