@@ -7,9 +7,8 @@ import axios from "axios";
 import { API_KEY } from "../credentials";
 
 const API_END_POINT = "https://api.themoviedb.org/3/";
-const POPULAR_MOVIES_URL =
-  "discover/movie?language=fr&sort_by=popularity.desc&include_adult=false&append_to_response=images";
-const SEARCH_URL = "search/movie?language=fr&include_adult=false";
+const DEFAULT_TYPE_SEARCH = "discover";
+const DEFAULT_PARAM = "language=fr&include_adult=false";
 
 class App extends Component {
   constructor(props) {
@@ -18,24 +17,28 @@ class App extends Component {
     this.initMovies();
   }
   initMovies() {
-    axios.get(`${API_END_POINT}${POPULAR_MOVIES_URL}&${API_KEY}`).then(
-      function (response) {
-        this.setState(
-          {
-            movieList: response.data.results.slice(1, 6),
-            currentMovie: response.data.results[0],
-          },
-          function () {
-            this.applyVideoToCurrentMovie();
-          }
-        );
-      }.bind(this)
-    );
+    axios
+      .get(
+        `${API_END_POINT}${DEFAULT_TYPE_SEARCH}/movie?api_key=${API_KEY}&sort_by=popularity.desc&${DEFAULT_PARAM}`
+      )
+      .then(
+        function (response) {
+          this.setState(
+            {
+              movieList: response.data.results.slice(1, 6),
+              currentMovie: response.data.results[0],
+            },
+            function () {
+              this.applyVideoToCurrentMovie();
+            }
+          );
+        }.bind(this)
+      );
   }
   applyVideoToCurrentMovie() {
     axios
       .get(
-        `${API_END_POINT}movie/${this.state.currentMovie.id}?${API_KEY}&append_to_response=videos&include_adult=false`
+        `${API_END_POINT}movie/${this.state.currentMovie.id}?api_key=${API_KEY}&append_to_response=videos&include_adult=false`
       )
       .then(
         function (response) {
@@ -62,7 +65,7 @@ class App extends Component {
   setRecommendation() {
     axios
       .get(
-        `${API_END_POINT}movie/${this.state.currentMovie.id}/recommendations?${API_KEY}&language=fr`
+        `${API_END_POINT}movie/${this.state.currentMovie.id}/recommendations?api_key=${API_KEY}&language=fr`
       )
       .then(
         function (response) {
@@ -76,7 +79,9 @@ class App extends Component {
   onClickSearch(searchText) {
     if (searchText) {
       axios
-        .get(`${API_END_POINT}${SEARCH_URL}&${API_KEY}&query=${searchText}`)
+        .get(
+          `${API_END_POINT}search/movie?api_key=${API_KEY}&${DEFAULT_PARAM}&query=${searchText}`
+        )
         .then(
           function (response) {
             if (response.data && response.data.results[0]) {
@@ -113,14 +118,14 @@ class App extends Component {
         </div>
 
         <div className="Row">
-          <div className="col-md-8">
+          <div className="col-md-7 col-lg-8">
             <Video videoId={this.state.currentMovie.videoId} />
             <VideoDetail
               title={this.state.currentMovie.title}
               description={this.state.currentMovie.overview}
             />
           </div>
-          <div className="col-md-4">{renderVideoList()}</div>
+          <div className="col-md-5 col-lg-4">{renderVideoList()}</div>
         </div>
       </div>
     );
