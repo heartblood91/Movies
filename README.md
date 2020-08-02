@@ -1,4 +1,4 @@
-# React Movies
+# Movies
 
 Application permettant d'élaborer une affiche de 5 films de manière dynamique (soit selon la popularité, soit selon un titre). Dévéloppé lors d'une formation sur React.
 
@@ -34,7 +34,7 @@ Dès la clé générée, renseignez-là dans le fichier ./credentials.js
 ## Procédure
 
 ```shell
-$ git clone "https://github.com/heartblood91/ReactMovies.git" && cd ReactMovies\
+$ git clone "https://github.com/heartblood91/Movies.git" && cd Movies\
 $ npm i
 $ npm run start
 ```
